@@ -1,0 +1,27 @@
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--fundo-card);
+  border-radius: 12px;
+  margin: 2rem auto;
+  max-width: 900px;
+  border: 1px solid var(--borda-suave);
+  box-shadow: 0 4px 25px rgba(0,0,0,0.05);
+}
+
+.hero h2 {
+  font-size: 2.5rem;
+  margin-top: 0;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: var(--texto-secundario);
+}
+
+#mensagemBoasVindas {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--cor-primaria);
+  margin-top: 1.5rem;
+}
