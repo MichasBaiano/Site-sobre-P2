@@ -1,0 +1,42 @@
+.container-sugestao {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: var(--fundo-card);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    border: 1px solid var(--borda-suave);
+}
+
+.container-sugestao h2 {
+    color: var(--cor-primaria);
+    margin-top: 0;
+}
+
+textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid var(--borda-suave);
+    font-family: var(--fonte-corpo);
+    margin-top: 0.5rem;
+    resize: vertical;
+}
+
+select {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: 1px solid var(--borda-suave);
+    background-color: white;
+    margin-top: 0.5rem;
+}
+
+#feedback {
+    text-align: center;
+    background-color: #e6f2e1;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    border: 1px solid #c3e6cb;
+}

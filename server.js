@@ -1,10 +1,13 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import { MapaController } from "./controller/MapaController.js";
+import { MapaController } from "./controller/mapaController.js";
+import { SugestaoController } from "./controller/sugestaoController.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
+
+app.use(express.json()); 
 
 app.use(express.static(path.join(__dirname, "view")));
 
@@ -20,7 +23,12 @@ app.get("/mapa", (req, res) => {
   res.sendFile(path.join(__dirname, "./View/templates/mapa.html"));
 });
 
+app.get("/sugestao", (req, res) => {
+  res.sendFile(path.join(__dirname, "./View/templates/sugestao.html"));
+});
+
 app.get("/api/pontos-mapa", MapaController.getPontosMapa);
+app.post("/api/sugestao", SugestaoController.enviarSugestao);
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Servidor rodando em http://localhost:${PORT}`));
