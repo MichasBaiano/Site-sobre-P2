@@ -6,6 +6,7 @@
     <title>Admin - Eventos</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
     <style>
         /* CSS Inline para simplificar, mas idealmente iria para admin.css */
         .admin-container { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; padding: 2rem; max-width: 1400px; margin: 0 auto; }
@@ -23,10 +24,12 @@
 <body>
 
     <div class="cabecalho-admin">
-        <h2>Painel Administrativo - Pedro II</h2>
+        <h2>Painel Admin</h2>
         <nav>
-            <a href="/">Ver Site</a>
-            <a href="/admin/eventos" style="text-decoration: underline;">Gerenciar Eventos</a>
+            <a href="/admin/eventos" class="ativo">Eventos</a>
+            <a href="/admin/estabelecimentos">Estabelecimentos</a>
+            <a href="/admin/transportes">Transportes</a>
+            <a href="/" style="margin-left: 20px; color: #ff9999;">Sair do Admin</a>
         </nav>
     </div>
 

@@ -1,0 +1,142 @@
+/* Layout Geral */
+.cabecalho-admin {
+    background: #1a202c !important; /* Quase preto */
+    border-bottom: 4px solid var(--cor-destaque);
+}
+
+.admin-container {
+    display: grid;
+    grid-template-columns: 350px 1fr; /* Coluna do form fixa */
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Card do Formulário */
+.form-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--sombra-card);
+    position: sticky;
+    top: 100px; /* Formulário acompanha o scroll */
+    height: fit-content;
+    border: 1px solid var(--borda-suave);
+}
+
+/* Inputs Bonitos */
+input[type="text"], 
+input[type="date"], 
+select, 
+textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-family: inherit;
+    transition: border 0.2s;
+    box-sizing: border-box; /* Importante para não quebrar layout */
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+}
+
+/* Tabela Profissional */
+.lista-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--sombra-card);
+    overflow: hidden; /* Para os cantos arredondados */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+th {
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #64748b;
+    letter-spacing: 0.5px;
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    color: var(--texto-principal);
+}
+
+/* Efeito Zebra e Hover */
+tbody tr:nth-child(even) { background-color: #fcfcfc; }
+tbody tr:hover { background-color: #f1f5f9; }
+
+/* Botões de Ação na Tabela */
+.btn-editar, .btn-deletar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    transition: transform 0.2s;
+}
+
+.btn-editar:hover, .btn-deletar:hover {
+    transform: scale(1.1);
+}
+
+/* Estilo específico para o cabeçalho do Admin */
+.cabecalho-admin {
+    background-color: #212529; /* Fundo Escuro */
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cabecalho-admin h2 {
+    margin: 0;
+    color: white;
+}
+
+.cabecalho-admin nav a {
+    color: #adb5bd; /* Cinza claro */
+    text-decoration: none;
+    margin-left: 1.5rem;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.cabecalho-admin nav a:hover {
+    color: white;
+}
+
+/* O item ativo fica Dourado ou da cor de destaque */
+.cabecalho-admin nav a.ativo {
+    color: var(--cor-destaque); 
+    border-bottom: 2px solid var(--cor-destaque);
+    padding-bottom: 2px;
+}

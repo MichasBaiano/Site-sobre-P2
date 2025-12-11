@@ -13,27 +13,71 @@
 
 </head>
 <body>
-
   <header>
-    <nav>
+    <nav style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
       <h1>Portal Pedro II</h1>
       <ul>
-        <li><a href="" class="ativo">Início</a></li>
-        <li><a href="perfil" id="linkPerfil">Perfil</a></li>
+        <li><a href="/" class="ativo">Início</a></li>
+        <li><a href="/mapa">Mapa</a></li>
+        <li><a href="/eventos">Eventos</a></li>
+        <li><a href="/estabelecimentos">Serviços</a></li>
+        <li><a href="/transportes">Transportes</a></li>
+        <li><a href="/sugestao">Sugerir</a></li>
+        <li><a href="/perfil">Perfil</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <section class="hero">
-      <h2>Bem-vindo ao Portal de Pedro II</h2>
-      <p>Descubra as maravilhas da nossa terra.</p>
+    <section class="hero" style="text-align: center; padding: 3rem 0;">
+      <h2>Bem-vindo a Pedro II</h2>
+      <p>A Suíça Piauiense: Opala, Serras e Cultura.</p>
       <h3 id="mensagemBoasVindas"></h3>
+    </section>
+
+    <section>
+        <h3 style="border-bottom: 2px solid #ddd; padding-bottom: 0.5rem;">Explore o Portal</h3>
+        <div class="grid-menu">
+            
+            <a href="/mapa" class="card-menu">
+                <span style="font-size: 2rem;">🗺️</span>
+                <h3>Mapa Turístico</h3>
+                <p>Navegue pelos pontos turísticos.</p>
+            </a>
+
+            <a href="/eventos" class="card-menu">
+                <span style="font-size: 2rem;">📅</span>
+                <h3>Agenda de Eventos</h3>
+                <p>Festivais e datas importantes.</p>
+            </a>
+
+            <a href="/estabelecimentos" class="card-menu">
+                <span style="font-size: 2rem;">🍽️</span>
+                <h3>Onde Comer e Ficar</h3>
+                <p>Restaurantes e Pousadas.</p>
+            </a>
+
+            <a href="/transportes" class="card-menu">
+                <span style="font-size: 2rem;">🚌</span>
+                <h3>Transportes</h3>
+                <p>Ônibus, vans e mototáxis.</p>
+            </a>
+
+            <a href="/sugestao" class="card-menu">
+                <span style="font-size: 2rem;">💡</span>
+                <h3>Sugerir</h3>
+                <p>Envie dicas de novos locais.</p>
+            </a>
+
+        </div>
     </section>
   </main>
 
   <footer>
     <p>© 2025 - Portal Pedro II | Projeto IFPI</p>
+    <p style="font-size: 0.8rem; margin-top: 10px;">
+        <a href="/admin/eventos">🔒 Acesso Administrativo</a>
+    </p>
   </footer>
 
   <script src="../js/auth.js"></script>

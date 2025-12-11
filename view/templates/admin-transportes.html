@@ -6,12 +6,13 @@
     <title>Admin - Transportes</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
     <style>
         .admin-container { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; padding: 2rem; max-width: 1400px; margin: 0 auto; }
         .form-card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); height: fit-content; }
         table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
         th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
-        th { background-color: var(--cor-primaria); color: white; }
+        th { background-color: var(--cor-primaria); color: white; } 
         .btn-editar { background-color: #ffc107; border:none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
         .btn-deletar { background-color: #dc3545; color: white; border:none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
         .cabecalho-admin { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #333; color: white; }
@@ -26,7 +27,7 @@
             <a href="/admin/eventos">Eventos</a>
             <a href="/admin/estabelecimentos">Estabelecimentos</a>
             <a href="/admin/transportes" class="ativo">Transportes</a>
-            <a href="/">Sair</a>
+            <a href="/" style="margin-left: 20px; color: #ff9999;">Sair do Admin</a>
         </nav>
     </div>
 
