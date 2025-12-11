@@ -1,0 +1,96 @@
+.header-servicos {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.filtros-botoes {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.btn-filtro {
+    background: transparent;
+    border: 2px solid var(--cor-primaria);
+    color: var(--cor-primaria);
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-filtro:hover, .btn-filtro.ativo {
+    background: var(--cor-primaria);
+    color: white;
+}
+
+.servicos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card-servico {
+    background: white;
+    border: 1px solid var(--borda-suave);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilo para parceiros pagantes (futuro) */
+.card-servico.destaque {
+    border: 2px solid var(--cor-destaque);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+}
+
+.tag-destaque {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--cor-destaque);
+    color: #333;
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.img-servico {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.info-servico {
+    padding: 1.2rem;
+    flex-grow: 1;
+}
+
+.info-servico h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    color: var(--texto-principal);
+}
+
+.info-servico p {
+    font-size: 0.9rem;
+    color: var(--texto-secundario);
+    margin-bottom: 0.5rem;
+}
+
+.endereco {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}

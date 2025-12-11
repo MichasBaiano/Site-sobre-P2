@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços e Comércio - Portal Pedro II</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/estabelecimentos.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>Portal Pedro II</h1>
+            <ul>
+                <li><a href="/">Início</a></li>
+                <li><a href="/mapa">Mapa</a></li>
+                <li><a href="/eventos">Eventos</a></li>
+                <li><a href="/estabelecimentos" class="ativo">Serviços</a></li>
+                <li><a href="/perfil">Perfil</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="header-servicos">
+            <h2>Guia da Cidade</h2>
+            <p>Encontre os melhores lugares para comer, ficar e comprar.</p>
+            
+            <div class="filtros-botoes">
+                <button class="btn-filtro ativo" data-cat="todos">Todos</button>
+                <button class="btn-filtro" data-cat="gastronomia">🍽️ Onde Comer</button>
+                <button class="btn-filtro" data-cat="hospedagem">🛏️ Onde Ficar</button>
+                <button class="btn-filtro" data-cat="comercio">💎 Comércio</button>
+            </div>
+        </div>
+
+        <div id="gridEstabelecimentos" class="servicos-grid">
+            </div>
+    </main>
+
+    <footer>
+        <p>© 2025 - Portal Pedro II | Projeto IFPI</p>
+    </footer>
+
+    <script src="../js/estabelecimentos.js"></script>
+</body>
+</html>
