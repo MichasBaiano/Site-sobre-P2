@@ -13,23 +13,36 @@ export class EventosController {
     }
 
     // POST: Criar novo
-    static async criarEvento(req, res) {
-        console.log("Dados recebidos:", req.body); // Log para debug
-
+static async criarEvento(req, res) {
         try {
-            const novoEvento = await EventosModel.create(req.body);
+            let dados = req.body;
+            
+            // Lógica de Imagem: Se veio arquivo, cria o caminho relativo
+            if (req.file) {
+                dados.imagem = '/uploads/' + req.file.filename;
+            }
+
+            const novoEvento = await EventosModel.create(dados);
             res.status(201).json(novoEvento);
         } catch (erro) {
-            console.error("Erro no Controller:", erro);
+            console.error(erro);
             res.status(500).json({ erro: "Erro ao criar evento." });
         }
-    } // <--- AQUI ESTAVA O ERRO (tinha duas chaves }})
+    }
 
     // PUT: Editar existente
-    static async editarEvento(req, res) {
+static async editarEvento(req, res) {
         try {
             const id = req.params.id;
-            const eventoAtualizado = await EventosModel.update(id, req.body);
+            let dados = req.body;
+
+            // Se o usuário enviou uma nova foto, atualiza.
+            if (req.file) {
+                dados.imagem = '/uploads/' + req.file.filename;
+            }
+            // Se não enviou arquivo, o 'dados.imagem' continua sendo a URL antiga que virá do form hidden
+
+            const eventoAtualizado = await EventosModel.update(id, dados);
             res.json(eventoAtualizado);
         } catch (erro) {
             console.error(erro);

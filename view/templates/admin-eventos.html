@@ -6,21 +6,7 @@
     <title>Admin - Eventos</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/admin.css">
-    <style>
-        /* CSS Inline para simplificar, mas idealmente iria para admin.css */
-        .admin-container { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; padding: 2rem; max-width: 1400px; margin: 0 auto; }
-        .form-card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); height: fit-content; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
-        th { background-color: var(--cor-primaria); color: white; }
-        .acoes button { padding: 0.4rem 0.8rem; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px; }
-        .btn-editar { background-color: #ffc107; color: #333; }
-        .btn-deletar { background-color: #dc3545; color: white; }
-        .cabecalho-admin { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #333; color: white; }
-        .cabecalho-admin a { color: white; margin-left: 20px; }
-    </style>
-</head>
+    <link rel="stylesheet" href="../css/admin.css"> </head>
 <body>
 
     <div class="cabecalho-admin">
@@ -29,36 +15,44 @@
             <a href="/admin/eventos" class="ativo">Eventos</a>
             <a href="/admin/estabelecimentos">Estabelecimentos</a>
             <a href="/admin/transportes">Transportes</a>
-            <a href="/logout" style="margin-left: 20px; color: #ff9999;">Sair do Admin</a>        
+            <a href="/logout" style="margin-left: 20px; color: #ff9999;">Sair do Admin</a>
         </nav>
     </div>
 
     <main class="admin-container">
         <div class="form-card">
             <h3 id="formTitulo">Novo Evento</h3>
-            <form id="formEvento">
-                <input type="hidden" id="eventoId"> <label>Nome do Evento:</label>
-                <input type="text" id="nome" required>
+            <form id="formEvento" enctype="multipart/form-data">
+                <input type="hidden" id="eventoId"> 
+                <input type="hidden" id="imagemAntiga">
+
+                <label>Nome do Evento:</label>
+                <input type="text" id="nome" name="nome" required>
 
                 <label>Data:</label>
-                <input type="date" id="data" required>
+                <input type="date" id="data" name="data" required>
 
                 <label>Local:</label>
-                <input type="text" id="local" required>
+                <input type="text" id="local" name="local" required>
 
                 <label>Categoria:</label>
-                <select id="categoria">
+                <select id="categoria" name="categoria">
                     <option value="Música">Música</option>
                     <option value="Feira">Feira</option>
                     <option value="Religioso">Religioso</option>
                     <option value="Esporte">Esporte</option>
                 </select>
 
-                <label>Link da Imagem:</label>
-                <input type="text" id="imagem" placeholder="https://..." required>
+                <label>Imagem do Evento:</label>
+                <input type="file" id="imagemArquivo" name="imagem" accept="image/*">
+                
+                <div id="previewContainer" class="oculto" style="margin-bottom: 1rem; text-align: center;">
+                    <p style="font-size: 0.8rem; color: #666;">Imagem Atual:</p>
+                    <img id="imgPreview" src="" alt="Preview" style="max-width: 100%; height: 150px; object-fit: cover; border-radius: 8px;">
+                </div>
 
                 <label>Descrição:</label>
-                <textarea id="descricao" rows="4"></textarea>
+                <textarea id="descricao" name="descricao" rows="4"></textarea>
 
                 <button type="submit" class="btn btn-enviar" style="width: 100%; margin-top: 1rem;">Salvar Evento</button>
                 <button type="button" id="btnCancelar" class="btn btn-cancelar oculto" style="width: 100%; margin-top: 0.5rem;">Cancelar Edição</button>
@@ -70,14 +64,13 @@
             <table>
                 <thead>
                     <tr>
+                        <th style="width: 60px;">Foto</th>
                         <th>Nome</th>
                         <th>Data</th>
-                        <th>Local</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody id="tabelaCorpo">
-                    </tbody>
+                <tbody id="tabelaCorpo"></tbody>
             </table>
         </div>
     </main>
@@ -86,9 +79,10 @@
         const form = document.getElementById('formEvento');
         const tabela = document.getElementById('tabelaCorpo');
         const btnCancelar = document.getElementById('btnCancelar');
+        const previewContainer = document.getElementById('previewContainer');
+        const imgPreview = document.getElementById('imgPreview');
         let editandoId = null;
 
-        // 1. CARREGAR EVENTOS
         function carregarEventos() {
             fetch('/api/eventos')
                 .then(res => res.json())
@@ -96,11 +90,14 @@
                     tabela.innerHTML = '';
                     eventos.forEach(ev => {
                         const dataFormatada = new Date(ev.data).toLocaleDateString('pt-BR');
+                        // Exibe miniatura se tiver imagem
+                        const thumb = ev.imagem ? `<img src="${ev.imagem}" style="width:40px; height:40px; border-radius:4px; object-fit:cover;">` : '📷';
+                        
                         tabela.innerHTML += `
                             <tr>
+                                <td>${thumb}</td>
                                 <td>${ev.nome}</td>
                                 <td>${dataFormatada}</td>
-                                <td>${ev.local}</td>
                                 <td class="acoes">
                                     <button class="btn-editar" onclick='prepararEdicao(${JSON.stringify(ev)})'>✏️</button>
                                     <button class="btn-deletar" onclick="deletarEvento(${ev.id})">🗑️</button>
@@ -111,65 +108,86 @@
                 });
         }
 
-        // 2. SALVAR (CRIAR OU EDITAR)
+        // MUDANÇA 2: Enviar como FormData (para suportar arquivos)
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const dados = {
-                nome: document.getElementById('nome').value,
-                data: document.getElementById('data').value,
-                local: document.getElementById('local').value,
-                categoria: document.getElementById('categoria').value,
-                imagem: document.getElementById('imagem').value,
-                descricao: document.getElementById('descricao').value
-            };
+            const formData = new FormData();
+            formData.append('nome', document.getElementById('nome').value);
+            formData.append('data', document.getElementById('data').value);
+            formData.append('local', document.getElementById('local').value);
+            formData.append('categoria', document.getElementById('categoria').value);
+            formData.append('descricao', document.getElementById('descricao').value);
+            
+            // Se o usuário selecionou um arquivo novo
+            const fileInput = document.getElementById('imagemArquivo');
+            if (fileInput.files[0]) {
+                formData.append('imagem', fileInput.files[0]);
+            } else {
+                // Se não selecionou, manda a string antiga (hidden input)
+                // O backend vai decidir se usa isso ou mantém o que tem
+                formData.append('imagem', document.getElementById('imagemAntiga').value);
+            }
 
             const url = editandoId ? `/api/eventos/${editandoId}` : '/api/eventos';
             const method = editandoId ? 'PUT' : 'POST';
 
-            await fetch(url, {
+            // Nota: Não defina 'Content-Type': 'multipart/form-data' manualmente. 
+            // O fetch faz isso sozinho e adiciona o "boundary" necessário.
+            const res = await fetch(url, {
                 method: method,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dados)
+                body: formData
             });
 
-            form.reset();
-            editandoId = null;
-            document.getElementById('formTitulo').textContent = 'Novo Evento';
-            btnCancelar.classList.add('oculto');
-            carregarEventos(); // Recarrega a tabela
+            if (res.ok) {
+                resetarForm();
+                carregarEventos();
+            } else {
+                alert('Erro ao salvar.');
+            }
         });
 
-        // 3. DELETAR
         window.deletarEvento = async (id) => {
-            if(confirm('Tem certeza que deseja excluir este evento?')) {
+            if(confirm('Tem certeza que deseja excluir?')) {
                 await fetch(`/api/eventos/${id}`, { method: 'DELETE' });
                 carregarEventos();
             }
         };
 
-        // 4. PREPARAR EDIÇÃO (Joga os dados da tabela para o form)
         window.prepararEdicao = (evento) => {
             document.getElementById('nome').value = evento.nome;
-            document.getElementById('data').value = evento.data; // Formato YYYY-MM-DD funciona direto no input date
+            document.getElementById('data').value = evento.data;
             document.getElementById('local').value = evento.local;
             document.getElementById('categoria').value = evento.categoria;
-            document.getElementById('imagem').value = evento.imagem;
             document.getElementById('descricao').value = evento.descricao;
+            
+            // Preencher campos de imagem
+            document.getElementById('imagemAntiga').value = evento.imagem || '';
+            
+            // Mostrar preview
+            if (evento.imagem) {
+                imgPreview.src = evento.imagem;
+                previewContainer.classList.remove('oculto');
+            } else {
+                previewContainer.classList.add('oculto');
+            }
             
             editandoId = evento.id;
             document.getElementById('formTitulo').textContent = 'Editando: ' + evento.nome;
             btnCancelar.classList.remove('oculto');
         };
 
-        btnCancelar.addEventListener('click', () => {
+        function resetarForm() {
             form.reset();
             editandoId = null;
             document.getElementById('formTitulo').textContent = 'Novo Evento';
+            document.getElementById('imagemAntiga').value = '';
+            previewContainer.classList.add('oculto');
             btnCancelar.classList.add('oculto');
-        });
+        }
 
-        // Iniciar carregando
+        btnCancelar.addEventListener('click', resetarForm);
+
         carregarEventos();
     </script>
 </body>

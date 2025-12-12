@@ -7,18 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/admin.css">
-    <style>
-        .admin-container { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; padding: 2rem; max-width: 1400px; margin: 0 auto; }
-        .form-card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); height: fit-content; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
-        th { background-color: var(--cor-primaria); color: white; }
-        .btn-editar { background-color: #ffc107; border:none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
-        .btn-deletar { background-color: #dc3545; color: white; border:none; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
-        .cabecalho-admin { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #333; color: white; }
-        .cabecalho-admin a { color: #ccc; margin-left: 20px; text-decoration: none; }
-        .cabecalho-admin a:hover, .cabecalho-admin a.ativo { color: white; text-decoration: underline; }
-    </style>
 </head>
 <body>
     <div class="cabecalho-admin">
@@ -27,17 +15,16 @@
             <a href="/admin/eventos">Eventos</a>
             <a href="/admin/estabelecimentos" class="ativo">Estabelecimentos</a>
             <a href="/admin/transportes">Transportes</a>
-            <a href="/logout" style="margin-left: 20px; color: #ff9999;">Sair do Admin</a>        
+            <a href="/logout" style="margin-left: 20px; color: #ff9999;">Sair do Admin</a>
         </nav>
     </div>
 
     <main class="admin-container">
         <div class="form-card">
             <h3 id="formTitulo">Novo Local</h3>
-            <form id="formLocal">
+            <form id="formLocal" enctype="multipart/form-data">
                 <input type="hidden" id="localId">
-                
-                <label>Nome:</label>
+                <input type="hidden" id="imagemAntiga"> <label>Nome:</label>
                 <input type="text" id="nome" required>
 
                 <label>Categoria:</label>
@@ -53,8 +40,13 @@
                 <label>Telefone:</label>
                 <input type="text" id="telefone" required>
 
-                <label>Link da Imagem:</label>
-                <input type="text" id="imagem" placeholder="https://..." required>
+                <label>Foto do Local:</label>
+                <input type="file" id="imagemArquivo" accept="image/*">
+
+                <div id="previewContainer" class="oculto" style="margin-bottom: 1rem; text-align: center;">
+                    <p style="font-size: 0.8rem; color: #666;">Imagem Atual:</p>
+                    <img id="imgPreview" src="" style="max-width: 100%; height: 150px; object-fit: cover; border-radius: 8px;">
+                </div>
                 
                 <label>
                     <input type="checkbox" id="destaque"> Destaque (Recomendado)
@@ -73,9 +65,9 @@
             <table>
                 <thead>
                     <tr>
+                        <th style="width: 60px;">Foto</th>
                         <th>Nome</th>
                         <th>Categoria</th>
-                        <th>Telefone</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -88,6 +80,8 @@
         const form = document.getElementById('formLocal');
         const tabela = document.getElementById('tabelaCorpo');
         const btnCancelar = document.getElementById('btnCancelar');
+        const previewContainer = document.getElementById('previewContainer');
+        const imgPreview = document.getElementById('imgPreview');
         let editandoId = null;
 
         function carregar() {
@@ -96,11 +90,12 @@
                 .then(locais => {
                     tabela.innerHTML = '';
                     locais.forEach(l => {
+                        const thumb = l.imagem ? `<img src="${l.imagem}" style="width:40px; height:40px; border-radius:4px; object-fit:cover;">` : '🏠';
                         tabela.innerHTML += `
                             <tr>
+                                <td>${thumb}</td>
                                 <td>${l.destaque ? '⭐ ' : ''}${l.nome}</td>
                                 <td>${l.categoria}</td>
-                                <td>${l.telefone}</td>
                                 <td>
                                     <button class="btn-editar" onclick='prepararEdicao(${JSON.stringify(l)})'>✏️</button>
                                     <button class="btn-deletar" onclick="deletar(${l.id})">🗑️</button>
@@ -112,26 +107,35 @@
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const dados = {
-                nome: document.getElementById('nome').value,
-                categoria: document.getElementById('categoria').value,
-                endereco: document.getElementById('endereco').value,
-                telefone: document.getElementById('telefone').value,
-                imagem: document.getElementById('imagem').value,
-                descricao: document.getElementById('descricao').value,
-                destaque: document.getElementById('destaque').checked
-            };
+            
+            const formData = new FormData();
+            formData.append('nome', document.getElementById('nome').value);
+            formData.append('categoria', document.getElementById('categoria').value);
+            formData.append('endereco', document.getElementById('endereco').value);
+            formData.append('telefone', document.getElementById('telefone').value);
+            formData.append('descricao', document.getElementById('descricao').value);
+            
+            // Checkbox precisa ser tratado manualmente para FormData
+            formData.append('destaque', document.getElementById('destaque').checked ? '1' : '');
+
+            const fileInput = document.getElementById('imagemArquivo');
+            if (fileInput.files[0]) {
+                formData.append('imagem', fileInput.files[0]);
+            } else {
+                formData.append('imagem', document.getElementById('imagemAntiga').value);
+            }
 
             const url = editandoId ? `/api/estabelecimentos/${editandoId}` : '/api/estabelecimentos';
             const method = editandoId ? 'PUT' : 'POST';
 
-            await fetch(url, { method, headers: {'Content-Type': 'application/json'}, body: JSON.stringify(dados) });
+            const res = await fetch(url, { method: method, body: formData });
             
-            form.reset();
-            editandoId = null;
-            document.getElementById('formTitulo').textContent = 'Novo Local';
-            btnCancelar.classList.add('oculto');
-            carregar();
+            if(res.ok) {
+                resetarForm();
+                carregar();
+            } else {
+                alert('Erro ao salvar');
+            }
         });
 
         window.deletar = async (id) => {
@@ -146,21 +150,32 @@
             document.getElementById('categoria').value = l.categoria;
             document.getElementById('endereco').value = l.endereco;
             document.getElementById('telefone').value = l.telefone;
-            document.getElementById('imagem').value = l.imagem;
             document.getElementById('descricao').value = l.descricao;
             document.getElementById('destaque').checked = !!l.destaque;
             
+            // Imagem
+            document.getElementById('imagemAntiga').value = l.imagem || '';
+            if (l.imagem) {
+                imgPreview.src = l.imagem;
+                previewContainer.classList.remove('oculto');
+            } else {
+                previewContainer.classList.add('oculto');
+            }
+
             editandoId = l.id;
             document.getElementById('formTitulo').textContent = 'Editando: ' + l.nome;
             btnCancelar.classList.remove('oculto');
         };
 
-        btnCancelar.addEventListener('click', () => {
+        function resetarForm() {
             form.reset();
             editandoId = null;
             document.getElementById('formTitulo').textContent = 'Novo Local';
+            previewContainer.classList.add('oculto');
             btnCancelar.classList.add('oculto');
-        });
+        }
+
+        btnCancelar.addEventListener('click', resetarForm);
 
         carregar();
     </script>

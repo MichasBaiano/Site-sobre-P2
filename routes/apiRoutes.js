@@ -1,4 +1,7 @@
 import express from "express";
+
+import { upload } from "../Config/upload.js";
+
 import { MapaController } from "../controller/mapaController.js";
 import { SugestaoController } from "../controller/sugestaoController.js";
 import { EventosController } from "../controller/eventoController.js";
@@ -14,14 +17,14 @@ router.post("/sugestao", SugestaoController.enviarSugestao);
 
 // --- CRUD Eventos ---
 router.get("/eventos", EventosController.listarEventos);
-router.post("/eventos", EventosController.criarEvento);
-router.put("/eventos/:id", EventosController.editarEvento);
+router.post("/eventos", upload.single('imagem'), EventosController.criarEvento);
+router.put("/eventos/:id", upload.single('imagem'), EventosController.editarEvento);
 router.delete("/eventos/:id", EventosController.deletarEvento);
 
 // --- CRUD Estabelecimentos ---
 router.get("/estabelecimentos", EstabelecimentosController.listar);
-router.post("/estabelecimentos", EstabelecimentosController.criar);
-router.put("/estabelecimentos/:id", EstabelecimentosController.editar);
+router.post("/estabelecimentos", upload.single('imagem'),  EstabelecimentosController.criar);
+router.put("/estabelecimentos/:id", upload.single('imagem'), EstabelecimentosController.editar);
 router.delete("/estabelecimentos/:id", EstabelecimentosController.deletar);
 
 // --- CRUD Transportes ---
