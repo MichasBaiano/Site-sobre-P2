@@ -4,6 +4,7 @@ import { SugestaoController } from "../controller/sugestaoController.js";
 import { EventosController } from "../controller/eventoController.js";
 import { EstabelecimentosController } from "../controller/estabelecimentoController.js";
 import { TransportesController } from "../controller/transporteController.js";
+import { AuthController } from "../controller/authController.js";
 
 const router = express.Router();
 
@@ -28,5 +29,8 @@ router.get("/transportes", TransportesController.listar);
 router.post("/transportes", TransportesController.criar);
 router.put("/transportes/:id", TransportesController.editar);
 router.delete("/transportes/:id", TransportesController.deletar);
+
+// Admin
+router.post("/login", AuthController.login);
 
 export default router;

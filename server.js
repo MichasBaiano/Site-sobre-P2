@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import { inicializarBanco } from "./Config/db.js";
+import session from "express-session";
 
 // Importando as rotas organizadas
 import siteRoutes from "./routes/siteRoutes.js";
