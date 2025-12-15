@@ -10,7 +10,7 @@ import apiRoutes from "./routes/apiRoutes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // 1. Middlewares Globais
 app.use(express.json()); // Ler JSON do body
