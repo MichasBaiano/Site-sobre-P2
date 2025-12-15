@@ -61,4 +61,14 @@ static async editarEvento(req, res) {
             res.status(500).json({ erro: "Erro ao deletar evento." });
         }
     }
+
+    static async getEvento(req, res) {
+        try {
+            const evento = await EventosModel.getById(req.params.id);
+            if(evento) res.json(evento);
+            else res.status(404).json({erro: "Não encontrado"});
+        } catch (erro) {
+            res.status(500).json({ erro: "Erro ao buscar evento." });
+        }
+    }
 }

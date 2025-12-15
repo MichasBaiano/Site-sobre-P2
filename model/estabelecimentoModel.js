@@ -31,4 +31,9 @@ export class EstabelecimentosModel {
         await db.run('DELETE FROM estabelecimentos WHERE id=?', [id]);
         return { message: "Deletado com sucesso" };
     }
+
+    static async getById(id) {
+        const db = await openDb();
+        return db.get('SELECT * FROM estabelecimentos WHERE id = ?', [id]);
+    }
 }

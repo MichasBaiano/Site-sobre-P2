@@ -1,66 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const listaEventos = document.getElementById('listaEventos');
-    const filtroSelect = document.getElementById('filtroCategoria');
-    
-    let todosEventos = []; // Guarda os dados originais para filtrar depois
+    const container = document.getElementById('listaEventos'); // ID confirmado no seu HTML
 
-    // 1. Função para desenhar os cards na tela
-    function renderizarEventos(eventos) {
-        listaEventos.innerHTML = ''; // Limpa a lista atual
-
-        if (eventos.length === 0) {
-            listaEventos.innerHTML = '<p>Nenhum evento encontrado nesta categoria.</p>';
-            return;
-        }
-
-        eventos.forEach(evento => {
-            // Formata a data para dia/mês/ano
-            const dataFormatada = new Date(evento.data).toLocaleDateString('pt-BR');
-
-            const card = document.createElement('div');
-            card.className = 'card-evento';
-            
-            // Usa imagem do evento ou um placeholder padrão se não tiver
-            const imagemUrl = evento.imagem && evento.imagem.startsWith('http') 
-                ? evento.imagem 
-                : 'https://via.placeholder.com/400x200?text=Evento+Pedro+II';
-
-            card.innerHTML = `
-                <div class="card-img" style="background-image: url('${imagemUrl}')"></div>
-                <div class="card-conteudo">
-                    <span class="data-badge">${dataFormatada}</span>
-                    <h3>${evento.nome}</h3>
-                    <div class="local">📍 ${evento.local}</div>
-                    <p class="descricao">${evento.descricao}</p>
-                </div>
-            `;
-            listaEventos.appendChild(card);
-        });
-    }
-
-    // 2. Buscar dados da API
     fetch('/api/eventos')
         .then(res => res.json())
-        .then(data => {
-            todosEventos = data; // Salva na memória
-            renderizarEventos(todosEventos); // Mostra tudo inicialmente
+        .then(eventos => {
+            container.innerHTML = '';
+
+            if (eventos.length === 0) {
+                container.innerHTML = '<p>Nenhum evento encontrado.</p>';
+                return;
+            }
+
+            eventos.forEach(ev => {
+                const dataFormatada = new Date(ev.data).toLocaleDateString('pt-BR');
+                
+                // Cria o HTML do Card com o LINK PARA DETALHE
+                const cardHTML = `
+                    <div class="card-evento">
+                        <div class="card-img" style="background-image: url('${ev.imagem || 'https://via.placeholder.com/400'}');"></div>
+                        <div class="card-conteudo">
+                            <span class="data-badge">${dataFormatada}</span>
+                            <h3>${ev.nome}</h3>
+                            <div class="local">📍 ${ev.local}</div>
+                            <p class="descricao">${ev.descricao ? ev.descricao.substring(0, 80) + '...' : ''}</p>
+                            
+                            <a href="/detalhe?tipo=evento&id=${ev.id}" class="btn" style="background-color: var(--cor-primaria); color: white; text-align: center; text-decoration: none; margin-top: auto; display: block; padding: 10px; border-radius: 5px;">
+                                Ver Detalhes
+                            </a>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
         })
-        .catch(err => {
-            console.error(err);
-            listaEventos.innerHTML = '<p>Erro ao carregar eventos.</p>';
+        .catch(erro => {
+            console.error("Erro:", erro);
+            container.innerHTML = '<p>Erro ao carregar eventos.</p>';
         });
-
-    // 3. Lógica do Filtro
-    filtroSelect.addEventListener('change', (e) => {
-        const categoriaSelecionada = e.target.value;
-
-        if (categoriaSelecionada === 'todos') {
-            renderizarEventos(todosEventos);
-        } else {
-            const filtrados = todosEventos.filter(evento => 
-                evento.categoria === categoriaSelecionada
-            );
-            renderizarEventos(filtrados);
-        }
-    });
 });

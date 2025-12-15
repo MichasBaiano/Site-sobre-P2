@@ -21,12 +21,14 @@ router.get("/eventos", EventosController.listarEventos);
 router.post("/eventos", upload.single('imagem'), EventosController.criarEvento);
 router.put("/eventos/:id", upload.single('imagem'), EventosController.editarEvento);
 router.delete("/eventos/:id", EventosController.deletarEvento);
+router.get("/eventos/:id", EventosController.getEvento);
 
 // --- CRUD Estabelecimentos ---
 router.get("/estabelecimentos", EstabelecimentosController.listar);
 router.post("/estabelecimentos", upload.single('imagem'),  EstabelecimentosController.criar);
 router.put("/estabelecimentos/:id", upload.single('imagem'), EstabelecimentosController.editar);
 router.delete("/estabelecimentos/:id", EstabelecimentosController.deletar);
+router.get("/estabelecimentos/:id", EstabelecimentosController.getEstabelecimento);
 
 // --- CRUD Transportes ---
 router.get("/transportes", TransportesController.listar);

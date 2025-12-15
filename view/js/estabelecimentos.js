@@ -1,63 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const grid = document.getElementById('gridEstabelecimentos');
-    const botoes = document.querySelectorAll('.btn-filtro');
-    
-    let todosLocais = [];
+    const container = document.getElementById('gridEstabelecimentos'); // ID confirmado no seu HTML
 
-    // 1. Renderiza os cards
-    function renderizar(locais) {
-        grid.innerHTML = '';
-        
-        if (locais.length === 0) {
-            grid.innerHTML = '<p style="text-align:center; width:100%">Nenhum local encontrado.</p>';
-            return;
-        }
-
-        locais.forEach(local => {
-            const ehDestaque = local.destaque ? 'destaque' : '';
-            const tagHtml = local.destaque ? '<span class="tag-destaque">Recomendado</span>' : '';
-
-            const card = document.createElement('div');
-            card.className = `card-servico ${ehDestaque}`;
-            
-            card.innerHTML = `
-                ${tagHtml}
-                <img src="${local.imagem}" alt="${local.nome}" class="img-servico">
-                <div class="info-servico">
-                    <h3>${local.nome}</h3>
-                    <p>${local.descricao}</p>
-                    <p><strong>📞 ${local.telefone}</strong></p>
-                    <div class="endereco">📍 ${local.endereco}</div>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-    }
-
-    // 2. Busca da API
     fetch('/api/estabelecimentos')
         .then(res => res.json())
-        .then(data => {
-            todosLocais = data;
-            renderizar(data);
-        })
-        .catch(err => console.error("Erro:", err));
+        .then(locais => {
+            container.innerHTML = '';
 
-    // 3. Filtros
-    botoes.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove classe 'ativo' de todos e adiciona no clicado
-            botoes.forEach(b => b.classList.remove('ativo'));
-            btn.classList.add('ativo');
-
-            const categoria = btn.dataset.cat;
-            
-            if (categoria === 'todos') {
-                renderizar(todosLocais);
-            } else {
-                const filtrados = todosLocais.filter(l => l.categoria === categoria);
-                renderizar(filtrados);
+            if (locais.length === 0) {
+                container.innerHTML = '<p>Nenhum local cadastrado.</p>';
+                return;
             }
+
+            locais.forEach(l => {
+                // Cria o HTML do Card com o LINK PARA DETALHE
+                const cardHTML = `
+                    <div class="card-local" style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        <div class="card-img" style="background-image: url('${l.imagem || 'https://via.placeholder.com/400'}'); height: 200px; background-size: cover; background-position: center;"></div>
+                        <div class="card-conteudo" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                            ${l.destaque ? '<span style="color: goldenrod; font-weight: bold;">⭐ Destaque</span>' : ''}
+                            <h3 style="margin: 0;">${l.nome}</h3>
+                            <span style="background: #eee; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; width: fit-content;">${l.categoria}</span>
+                            <p>📞 ${l.telefone}</p>
+                            
+                            <a href="/detalhe?tipo=estabelecimento&id=${l.id}" class="btn" style="background-color: var(--cor-primaria); color: white; text-align: center; text-decoration: none; margin-top: 10px; display: block; padding: 10px; border-radius: 5px;">
+                                Saiba Mais
+                            </a>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        })
+        .catch(erro => {
+            console.error("Erro:", erro);
+            container.innerHTML = '<p>Erro ao carregar locais.</p>';
         });
-    });
 });

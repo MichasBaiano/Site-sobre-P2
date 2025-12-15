@@ -33,4 +33,9 @@ export class EventosModel {
         await db.run('DELETE FROM eventos WHERE id=?', [id]);
         return { message: "Deletado com sucesso" };
     }
+
+    static async getById(id) {
+        const db = await openDb();
+        return db.get('SELECT * FROM eventos WHERE id = ?', [id]);
+    }
 }

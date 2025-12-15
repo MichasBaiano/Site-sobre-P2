@@ -22,6 +22,7 @@ router.get("/sugestao", (req, res) => res.sendFile(path.join(viewPath, "sugestao
 router.get("/eventos", (req, res) => res.sendFile(path.join(viewPath, "eventos.html")));
 router.get("/estabelecimentos", (req, res) => res.sendFile(path.join(viewPath, "estabelecimentos.html")));
 router.get("/transportes", (req, res) => res.sendFile(path.join(viewPath, "transportes.html")));
+router.get("/detalhe", (req, res) => res.sendFile(path.join(viewPath, "detalhe.html")));
 
 // Rotas de Login e Logout
 router.get("/login", (req, res) => res.sendFile(path.join(viewPath, "login.html")));

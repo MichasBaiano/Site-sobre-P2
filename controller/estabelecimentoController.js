@@ -50,4 +50,14 @@ static async editar(req, res) {
             res.status(500).json({ erro: "Erro ao deletar local." });
         }
     }
+
+    static async getEstabelecimento(req, res) {
+        try {
+            const local = await EstabelecimentosModel.getById(req.params.id);
+            if(local) res.json(local);
+            else res.status(404).json({erro: "Não encontrado"});
+        } catch (erro) {
+            res.status(500).json({ erro: "Erro ao buscar local." });
+        }
+    }
 }
