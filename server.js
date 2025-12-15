@@ -27,6 +27,9 @@ app.use(session({
 // 3. Usando as Rotas
 app.use("/", siteRoutes); // Todas as rotas de página (HTML)
 app.use("/api", apiRoutes); // Todas as rotas de API (JSON) - Adiciona o prefixo /api automaticamente
+app.use((req, res) => {
+    res.status(404).sendFile(path.join(__dirname, "view/templates/404.html"));
+});
 
 // 4. Inicialização
 inicializarBanco().then(() => {
