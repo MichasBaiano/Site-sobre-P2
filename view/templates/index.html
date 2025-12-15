@@ -35,6 +35,12 @@
       <h3 id="mensagemBoasVindas"></h3>
     </section>
 
+    <section id="secao-banners" style="margin-bottom: 2rem; display: none;">
+        <h3 style="font-size: 0.9rem; color: #666; text-transform: uppercase; margin-bottom: 0.5rem;">Parceiros do Portal</h3>
+        <div id="banner-container" style="display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 1rem;">
+            </div>
+    </section>
+
     <section>
         <h3 style="border-bottom: 2px solid #ddd; padding-bottom: 0.5rem;">Explore o Portal</h3>
         <div class="grid-menu">
@@ -81,5 +87,26 @@
   </footer>
 
   <script src="../js/auth.js"></script>
+
+  <script>
+      // Carregar Banners
+      fetch('/api/banners')
+          .then(res => res.json())
+          .then(banners => {
+              const container = document.getElementById('banner-container');
+              const secao = document.getElementById('secao-banners');
+
+              if (banners.length > 0) {
+                  secao.style.display = 'block'; // Mostra a seção só se tiver anúncio
+                  banners.forEach(b => {
+                      container.innerHTML += `
+                          <a href="${b.link}" target="_blank" style="flex: 0 0 auto; width: 300px;">
+                              <img src="${b.imagem}" alt="${b.titulo}" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 2px solid #fff;">
+                          </a>
+                      `;
+                  });
+              }
+          });
+  </script>
 </body>
 </html>

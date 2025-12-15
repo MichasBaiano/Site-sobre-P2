@@ -32,4 +32,6 @@ router.get("/admin/eventos", verificarAutenticacao, (req, res) => res.sendFile(p
 router.get("/admin/estabelecimentos", verificarAutenticacao, (req, res) => res.sendFile(path.join(viewPath, "admin-estabelecimentos.html")));
 router.get("/admin/transportes", verificarAutenticacao, (req, res) => res.sendFile(path.join(viewPath, "admin-transportes.html")));
 
+// rotas banners
+router.get("/admin/banners", verificarAutenticacao, (req, res) => res.sendFile(path.join(viewPath, "admin-banners.html")));
 export default router;

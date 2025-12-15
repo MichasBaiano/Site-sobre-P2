@@ -93,7 +93,7 @@ export async function inicializarBanco() {
         `);
     }
 
-    // 2. NOVA TABELA: USUÁRIOS
+    // 5. NOVA TABELA: USUÁRIOS
     await db.exec(`
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -102,13 +102,23 @@ export async function inicializarBanco() {
         )
     `);
 
-    // 3. SEED ADMIN (Cria o admin se não existir)
+    // 6. SEED ADMIN (Cria o admin se não existir)
     const adminExiste = await db.get("SELECT * FROM usuarios WHERE login = ?", ['admin']);
     if (!adminExiste) {
         // ATENÇÃO: Em produção, nunca salve senhas em texto puro. Usaremos assim apenas para o MVP didático.
         await db.run("INSERT INTO usuarios (login, senha) VALUES (?, ?)", ['admin', '123456']);
         console.log("Usuário ADMIN criado: login 'admin', senha '123456'");
     }
+
+    // --- 7. TABELA BANNERS (NOVO) ---
+    await db.exec(`
+        CREATE TABLE IF NOT EXISTS banners (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            titulo TEXT,
+            imagem TEXT,
+            link TEXT
+        )
+    `);
 
     console.log("Banco de dados atualizado com sucesso!");
 }

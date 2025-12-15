@@ -8,6 +8,7 @@ import { EventosController } from "../controller/eventoController.js";
 import { EstabelecimentosController } from "../controller/estabelecimentoController.js";
 import { TransportesController } from "../controller/transporteController.js";
 import { AuthController } from "../controller/authController.js";
+import { BannersController } from "../controller/bannersController.js";
 
 const router = express.Router();
 
@@ -35,5 +36,10 @@ router.delete("/transportes/:id", TransportesController.deletar);
 
 // Admin
 router.post("/login", AuthController.login);
+
+// --- PUBLICIDADE (BANNERS) ---
+router.get("/banners", BannersController.listar);
+router.post("/banners", upload.single('imagem'), BannersController.criar);
+router.delete("/banners/:id", BannersController.deletar);
 
 export default router;

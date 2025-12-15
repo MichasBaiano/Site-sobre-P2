@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Publicidade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+    <div class="cabecalho-admin">
+        <h2>Gestão de Publicidade</h2>
+        <nav>
+            <a href="/admin/eventos">Eventos</a>
+            <a href="/admin/estabelecimentos">Locais</a>
+            <a href="/admin/banners" class="ativo">Banners</a>
+            <a href="/logout" style="margin-left: 20px; color: #ff9999;">Sair</a>
+        </nav>
+    </div>
+
+    <main class="admin-container">
+        <div class="form-card">
+            <h3>Nova Publicidade</h3>
+            <form id="formBanner" enctype="multipart/form-data">
+                <label>Nome do Anunciante:</label>
+                <input type="text" id="titulo" required placeholder="Ex: Pizzaria do João">
+
+                <label>Link de Destino (Instagram/Site):</label>
+                <input type="text" id="link" required placeholder="https://instagram.com/...">
+
+                <label>Imagem do Banner (Recomendado: Retangular):</label>
+                <input type="file" id="imagemArquivo" accept="image/*" required>
+
+                <button type="submit" class="btn btn-enviar" style="width: 100%; margin-top: 1rem;">Publicar Anúncio</button>
+            </form>
+        </div>
+
+        <div class="lista-card">
+            <h3>Anúncios Ativos</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">Banner</th>
+                        <th>Anunciante</th>
+                        <th>Link</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaCorpo"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        const form = document.getElementById('formBanner');
+        const tabela = document.getElementById('tabelaCorpo');
+
+        function carregar() {
+            fetch('/api/banners')
+                .then(res => res.json())
+                .then(lista => {
+                    tabela.innerHTML = '';
+                    lista.forEach(b => {
+                        tabela.innerHTML += `
+                            <tr>
+                                <td><img src="${b.imagem}" style="width:100px; height:auto; border-radius:4px;"></td>
+                                <td>${b.titulo}</td>
+                                <td><a href="${b.link}" target="_blank">Abrir Link</a></td>
+                                <td><button class="btn-deletar" onclick="deletar(${b.id})">🗑️</button></td>
+                            </tr>`;
+                    });
+                });
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('titulo', document.getElementById('titulo').value);
+            formData.append('link', document.getElementById('link').value);
+            formData.append('imagem', document.getElementById('imagemArquivo').files[0]);
+
+            const res = await fetch('/api/banners', { method: 'POST', body: formData });
+            if(res.ok) { form.reset(); carregar(); } else { alert('Erro ao salvar'); }
+        });
+
+        window.deletar = async (id) => {
+            if(confirm('Remover este anúncio?')) {
+                await fetch(`/api/banners/${id}`, { method: 'DELETE' });
+                carregar();
+            }
+        };
+
+        carregar();
+    </script>
+</body>
+</html>
