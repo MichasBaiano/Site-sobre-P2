@@ -1,41 +1,41 @@
-/* ... Mantenha o header-eventos e filtro-container ... */
-
-.eventos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Cards um pouco mais largos */
-  gap: 2rem;
+.header-eventos {
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 800px;
+  margin-left: auto; 
+  margin-right: auto;
 }
 
+.header-eventos p { color: var(--texto-leve); font-size: 1.1rem; }
+
+/* Grid Responsivo */
+.eventos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2.5rem;
+}
+
+/* O Card Minimalista */
 .card-evento {
-  background: var(--fundo-card);
-  border: 1px solid var(--borda-suave);
-  border-radius: 12px;
+  background: var(--bg-card);
+  border-radius: 16px;
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Animação suave */
+  box-shadow: var(--sombra-m);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
-  box-shadow: var(--sombra-card);
+  height: 100%;
 }
 
 .card-evento:hover {
-  transform: translateY(-8px); /* Sobe um pouco mais */
-  box-shadow: var(--sombra-hover); /* Sombra cresce */
-  border-color: transparent;
+  transform: translateY(-5px);
+  box-shadow: var(--sombra-g);
 }
 
 .card-img {
-  height: 200px;
+  height: 220px;
   background-size: cover;
   background-position: center;
-  position: relative;
-}
-
-/* Overlay sutil na imagem */
-.card-img::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4));
 }
 
 .card-conteudo {
@@ -45,37 +45,60 @@
   flex-direction: column;
 }
 
+/* Badge (Data ou Categoria) */
 .data-badge {
-  background-color: var(--cor-opala); /* Roxo Opala */
-  color: white;
-  font-weight: 600;
-  padding: 0.3rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  align-self: flex-start;
-  margin-bottom: 0.8rem;
+  display: inline-block;
+  background-color: var(--cor-primaria-clara);
+  color: var(--cor-primaria);
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  border-radius: 50px;
+  margin-bottom: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  align-self: flex-start;
 }
 
 .card-conteudo h3 {
-  margin: 0.5rem 0;
-  color: var(--texto-principal);
-  font-size: 1.25rem;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.35rem;
+  color: var(--texto-titulo);
+  line-height: 1.3;
 }
 
 .local {
-  color: var(--cor-primaria);
-  font-weight: 600;
-  font-size: 0.9rem;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  color: var(--texto-leve);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
 }
 
 .descricao {
-  color: var(--texto-secundario);
+  color: var(--texto-corpo);
   font-size: 0.95rem;
-  line-height: 1.5;
-  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  /* Limita a 3 linhas */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Botão dentro do card */
+.card-conteudo .btn {
+  margin-top: auto; /* Empurra pro fundo */
+  background-color: transparent;
+  border: 1px solid var(--borda-suave);
+  color: var(--cor-primaria);
+  width: 100%;
+}
+
+.card-conteudo .btn:hover {
+  background-color: var(--cor-primaria);
+  color: white;
+  border-color: var(--cor-primaria);
 }

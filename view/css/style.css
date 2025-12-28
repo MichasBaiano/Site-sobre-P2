@@ -1,49 +1,48 @@
 :root {
-  /* Paleta de Cores Inspirada em Pedro II (Opala e Natureza) */
-  --cor-primaria: #004e92;       /* Azul Royal */
-  --cor-primaria-dark: #002952;  /* Azul Escuro para Hover */
-  --cor-secundaria: #00b4db;     /* Azul Claro */
-  --cor-destaque: #f09819;       /* Dourado/Laranja Opala */
+  /* Paleta Modernizada */
+  --cor-primaria: #0f4c81;       /* Azul Clássico Profundo */
+  --cor-primaria-clara: #ebf2f8; /* Azulzinho muito claro para fundos */
+  --cor-destaque: #e0a800;       /* Dourado mais fechado e elegante */
   
-  --fundo-pagina: #f4f7f6;       /* Cinza muito suave, melhor que branco puro */
-  --fundo-card: #ffffff;
+  --bg-body: #f7f9fc;            /* Cinza azulado muito claro (não branco puro) */
+  --bg-card: #ffffff;
   
-  --texto-principal: #2c3e50;
-  --texto-suave: #636e72;
+  --texto-titulo: #1a202c;       /* Quase preto */
+  --texto-corpo: #4a5568;        /* Cinza escuro para leitura */
+  --texto-leve: #718096;         /* Cinza médio para legendas */
   
-  --borda-suave: #dfe6e9;
-  --sombra-leve: 0 4px 6px rgba(0,0,0,0.05);
-  --sombra-hover: 0 10px 20px rgba(0,0,0,0.12);
+  --borda-suave: #e2e8f0;
   
-  --radius-card: 12px;
-  --radius-btn: 8px;
+  /* Sombras (Elevation) */
+  --sombra-p: 0 2px 4px rgba(0,0,0,0.02);
+  --sombra-m: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  --sombra-g: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
   
+  --radius: 12px;
   --fonte-titulo: 'Merriweather', serif;
   --fonte-corpo: 'Inter', sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   font-family: var(--fonte-corpo);
-  background-color: var(--fundo-pagina);
-  color: var(--texto-principal);
+  background-color: var(--bg-body);
+  color: var(--texto-corpo);
   margin: 0;
-  line-height: 1.6;
+  line-height: 1.7; /* Melhora leitura */
   -webkit-font-smoothing: antialiased;
 }
 
-/* --- HEADER ONDULADO (Efeito Visual) --- */
+/* --- HEADER MINIMALISTA --- */
 header {
-  background: linear-gradient(135deg, var(--cor-primaria-dark), var(--cor-primaria));
-  color: white;
+  background-color: var(--bg-card);
   padding: 1rem 2rem;
-  box-shadow: var(--sombra-leve);
+  box-shadow: var(--sombra-p);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 100;
+  border-bottom: 1px solid var(--borda-suave);
 }
 
 header nav {
@@ -55,123 +54,107 @@ header nav {
 }
 
 header h1 {
-  font-family: var(--fonte-titulo);
-  font-size: 1.5rem;
   margin: 0;
-  letter-spacing: 1px;
+  color: var(--cor-primaria);
+  font-family: var(--fonte-titulo);
+  font-size: 1.4rem;
+  letter-spacing: -0.5px;
 }
 
 nav ul {
-  display: flex;
-  gap: 20px;
   list-style: none;
+  display: flex;
+  gap: 2rem;
   margin: 0;
   padding: 0;
 }
 
 nav a {
-  color: rgba(255,255,255,0.85);
+  color: var(--texto-corpo);
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s;
   font-size: 0.95rem;
+  transition: color 0.2s;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid transparent;
 }
 
 nav a:hover, nav a.ativo {
-  color: var(--cor-destaque);
+  color: var(--cor-primaria);
+  border-bottom-color: var(--cor-destaque);
 }
 
-/* --- LAYOUT PRINCIPAL --- */
+/* --- LAYOUT --- */
 main {
+  padding: 3rem 1.5rem;
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 20px;
+  margin: 0 auto;
   min-height: 80vh;
 }
 
-/* --- BOTÕES PADRONIZADOS --- */
+h2 {
+  color: var(--texto-titulo);
+  font-family: var(--fonte-titulo);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* --- BOTÕES GLOBAIS --- */
 .btn {
   display: inline-block;
-  padding: 10px 20px;
-  border-radius: var(--radius-btn);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px; /* Cantos arredondados modernos */
   font-weight: 600;
   text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   border: none;
-  font-size: 0.9rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  text-align: center;
 }
 
 .btn-enviar, .btn-primary {
   background-color: var(--cor-primaria);
   color: white;
 }
-
-.btn-enviar:hover, .btn-primary:hover {
-  background-color: var(--cor-primaria-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0,78,146,0.3);
+.btn-enviar:hover {
+  background-color: #0b3d6b;
+  transform: translateY(-1px);
+  box-shadow: var(--sombra-m);
 }
 
 .btn-cancelar, .btn-danger {
-  background-color: #ff7675;
-  color: white;
+  background-color: #fee2e2;
+  color: #991b1b;
 }
+.btn-cancelar:hover { background-color: #fecaca; }
 
-.btn-cancelar:hover {
-  background-color: #d63031;
-}
-
-/* --- INPUTS E FORMULÁRIOS --- */
+/* --- INPUTS --- */
 input, select, textarea {
   width: 100%;
-  padding: 12px;
-  border: 2px solid var(--borda-suave);
-  border-radius: var(--radius-btn);
-  font-family: inherit;
-  transition: border-color 0.3s;
+  padding: 12px 16px;
+  border: 1px solid var(--borda-suave);
+  border-radius: 8px;
   background: #fff;
+  transition: all 0.2s;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--texto-titulo);
 }
 
 input:focus, select:focus, textarea:focus {
   outline: none;
-  border-color: var(--cor-secundaria);
+  border-color: var(--cor-primaria);
+  box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.1); /* Anel de foco suave */
 }
 
-label {
-  display: block;
-  margin-bottom: 6px;
-  margin-top: 15px;
-  font-weight: 600;
-  color: var(--texto-principal);
-}
-
-/* --- SPINNER DE LOADING (NOVO) --- */
-.spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border-left-color: var(--cor-primaria);
-  animation: spin 1s linear infinite;
-  margin: 20px auto;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* --- RODAPÉ --- */
+/* --- FOOTER --- */
 footer {
-  background-color: var(--cor-primaria-dark);
-  color: white;
+  background-color: white;
+  border-top: 1px solid var(--borda-suave);
+  color: var(--texto-leve);
+  padding: 3rem;
   text-align: center;
-  padding: 2rem;
   margin-top: 4rem;
 }
-
-footer a {
-  color: var(--cor-destaque);
-  text-decoration: none;
-}
+footer a { color: var(--cor-primaria); text-decoration: none; font-weight: 600; }

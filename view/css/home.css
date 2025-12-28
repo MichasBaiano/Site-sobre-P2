@@ -1,72 +1,85 @@
 .hero {
-  /* Imagem de fundo fixa (efeito parallax simples) */
-  background: linear-gradient(rgba(0,41,82,0.7), rgba(0,41,82,0.5)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Morro_do_Gritador.jpg/1200px-Morro_do_Gritador.jpg');
+  position: relative;
+  text-align: center;
+  padding: 8rem 2rem;
+  /* Imagem com gradiente azul escuro por cima para o texto branco ler bem */
+  background: linear-gradient(rgba(15, 76, 129, 0.8), rgba(15, 76, 129, 0.6)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Morro_do_Gritador.jpg/1200px-Morro_do_Gritador.jpg');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* Efeito Parallax */
-  
+  border-radius: 24px; /* Bem arredondado */
   color: white;
-  text-align: center;
-  padding: 8rem 1rem;
-  border-radius: var(--radius-card);
-  box-shadow: var(--sombra-hover);
-  margin-bottom: 3rem;
-  position: relative;
-  overflow: hidden;
+  margin-bottom: 4rem;
+  box-shadow: var(--sombra-g);
 }
 
 .hero h2 {
   font-size: 3.5rem;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  font-family: var(--fonte-titulo);
+  margin-bottom: 1rem;
+  color: white;
+  font-weight: 700;
+  letter-spacing: -1px;
 }
 
 .hero p {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
+  color: rgba(255,255,255, 0.9);
   max-width: 700px;
-  margin: 0 auto;
-  opacity: 0.9;
+  margin: 0 auto 2rem auto;
 }
 
-/* Cards do Menu Inicial */
+#mensagemBoasVindas {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  color: #fff;
+  font-weight: 500;
+  display: inline-block;
+}
+
+/* Grid Menu Minimalista */
 .grid-menu {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
 }
 
 .card-menu {
   background: white;
   padding: 2.5rem 1.5rem;
-  border-radius: var(--radius-card);
-  box-shadow: var(--sombra-leve);
+  border-radius: 16px;
   text-align: center;
   text-decoration: none;
-  color: var(--texto-principal);
-  border: 1px solid transparent; /* Prepara para hover */
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+  box-shadow: var(--sombra-p);
 }
 
 .card-menu:hover {
-  transform: translateY(-10px);
-  box-shadow: var(--sombra-hover);
-  border-color: var(--cor-secundaria);
+  transform: translateY(-8px);
+  box-shadow: var(--sombra-g);
+  border-color: var(--cor-primaria-clara);
 }
 
 .card-menu span {
   display: block;
-  font-size: 2.5rem;
+  font-size: 2.5rem; /* Emoji maior */
   margin-bottom: 1rem;
   transition: transform 0.3s;
 }
 
-.card-menu:hover span {
-  transform: scale(1.2);
-}
+.card-menu:hover span { transform: scale(1.1); }
 
 .card-menu h3 {
-  color: var(--cor-primaria);
+  color: var(--texto-titulo);
   margin: 0.5rem 0;
+  font-size: 1.1rem;
   font-weight: 700;
+}
+
+.card-menu p {
+  color: var(--texto-leve);
+  font-size: 0.9rem;
+  margin: 0;
 }
