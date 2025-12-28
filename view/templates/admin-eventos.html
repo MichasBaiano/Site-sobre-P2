@@ -6,7 +6,9 @@
     <title>Admin - Eventos</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/admin.css"> </head>
+    <link rel="stylesheet" href="../css/admin.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
 <body>
 
     <div class="cabecalho-admin">
@@ -148,11 +150,34 @@
             }
         });
 
-        window.deletarEvento = async (id) => {
-            if(confirm('Tem certeza que deseja excluir?')) {
-                await fetch(`/api/eventos/${id}`, { method: 'DELETE' });
-                carregarEventos();
-            }
+        window.deletarEvento = (id) => {
+            Swal.fire({
+                title: 'Tem certeza?',
+                text: "Você não poderá reverter essa ação!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33', // Vermelho para perigo
+                cancelButtonColor: '#004e92', // Azul para cancelar
+                confirmButtonText: 'Sim, excluir!',
+                cancelButtonText: 'Cancelar'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    // Se o usuário clicou em "Sim", executa a exclusão
+                    try {
+                        await fetch(`/api/eventos/${id}`, { method: 'DELETE' });
+                        
+                        // Mostra sucesso e recarrega a tabela
+                        Swal.fire(
+                            'Deletado!',
+                            'O evento foi removido.',
+                            'success'
+                        );
+                        carregarEventos(); // Atualiza a lista na tela
+                    } catch (error) {
+                        Swal.fire('Erro!', 'Não foi possível deletar.', 'error');
+                    }
+                }
+            });
         };
 
         window.prepararEdicao = (evento) => {
